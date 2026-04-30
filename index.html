@@ -4,242 +4,100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>타사 랜딩페이지 및 전환 구조 분석</title>
-<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f1efeb;color:#1a1a18;line-height:1.6}
+.wrap{max-width:860px;margin:0 auto;padding:3rem 2rem 5rem}
 
-  :root {
-    --bg: #ffffff;
-    --bg-secondary: #f7f7f5;
-    --bg-tertiary: #f1efeb;
-    --text-primary: #1a1a18;
-    --text-secondary: #6b6b67;
-    --text-tertiary: #a0a09c;
-    --border: rgba(0,0,0,0.1);
-    --border-med: rgba(0,0,0,0.15);
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
+.ph{margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid rgba(0,0,0,0.1)}
+.ph-eye{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#6b6b67;margin-bottom:.75rem;display:block}
+.ph-title{font-size:32px;font-weight:700;color:#1a1a18;line-height:1.2;margin-bottom:.5rem}
+.ph-desc{font-size:14px;color:#6b6b67;line-height:1.8}
 
-    --purple-50: #EEEDFE; --purple-200: #AFA9EC; --purple-600: #534AB7; --purple-800: #3C3489;
-    --teal-50: #E1F5EE; --teal-200: #5DCAA5; --teal-600: #0F6E56; --teal-800: #085041;
-    --blue-50: #E6F1FB; --blue-200: #85B7EB; --blue-600: #185FA5; --blue-800: #0C447C;
-    --amber-50: #FAEEDA; --amber-200: #EF9F27; --amber-600: #854F0B; --amber-800: #633806;
-    --coral-50: #FAECE7; --coral-200: #F0997B; --coral-600: #993C1D; --coral-800: #712B13;
-    --red-400: #E24B4A;
-  }
+.callout{background:#f7f7f5;border:1px solid rgba(0,0,0,0.1);border-radius:12px;padding:1rem 1.25rem;margin-bottom:2.5rem;display:flex;gap:12px;align-items:flex-start}
+.callout-icon{font-size:16px;flex-shrink:0;margin-top:2px}
+.callout-text{font-size:13.5px;color:#6b6b67;line-height:1.75}
+.callout-text strong{color:#1a1a18;font-weight:600}
 
-  body {
-    font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', sans-serif;
-    background: var(--bg-tertiary);
-    color: var(--text-primary);
-    line-height: 1.6;
-    min-height: 100vh;
-  }
+.sh{display:flex;align-items:center;gap:10px;margin:3rem 0 1.25rem;padding-bottom:.75rem;border-bottom:1px solid rgba(0,0,0,0.1)}
+.sh-num{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sh-title{font-size:20px;font-weight:700;color:#1a1a18}
+.sh-badge{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;letter-spacing:.02em}
 
-  .container {
-    max-width: 860px;
-    margin: 0 auto;
-    padding: 3rem 2rem 5rem;
-  }
+.card{background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:16px;overflow:hidden;margin-bottom:1rem}
+.card-head{padding:1.25rem 1.5rem 1rem;border-bottom:1px solid rgba(0,0,0,0.08);display:flex;align-items:flex-start;gap:14px}
+.card-logo{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;letter-spacing:.02em}
+.card-name{font-size:16px;font-weight:700;color:#1a1a18;margin-bottom:4px}
+.card-sub{font-size:13px;color:#6b6b67;line-height:1.5}
+.card-body{padding:1.25rem 1.5rem}
 
-  /* ── Page header ── */
-  .page-header {
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .page-eyebrow {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--text-secondary);
-    margin-bottom: 0.75rem;
-  }
-  .page-title {
-    font-size: 32px; font-weight: 600;
-    color: var(--text-primary); line-height: 1.2;
-    margin-bottom: 0.5rem;
-  }
-  .page-desc {
-    font-size: 14px; color: var(--text-secondary); line-height: 1.8;
-  }
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.25rem;margin-bottom:1rem}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#a0a09c;margin-bottom:.4rem}
+.txt{font-size:13.5px;color:#1a1a18;line-height:1.75}
 
-  /* ── Callout ── */
-  .callout {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1rem 1.25rem;
-    margin-bottom: 2.5rem;
-    display: flex; gap: 12px; align-items: flex-start;
-  }
-  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
-  .callout-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; }
-  .callout-text strong { color: var(--text-primary); font-weight: 500; }
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:.6rem}
+.tag{font-size:12px;font-weight:600;padding:3px 10px;border-radius:100px;border:1px solid}
 
-  /* ── Section header ── */
-  .section-header {
-    display: flex; align-items: center; gap: 10px;
-    margin: 3rem 0 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-num {
-    width: 30px; height: 30px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 600; flex-shrink: 0;
-  }
-  .section-title {
-    font-size: 20px; font-weight: 600; color: var(--text-primary);
-  }
-  .section-badge {
-    margin-left: auto;
-    font-size: 11px; font-weight: 600; padding: 4px 12px;
-    border-radius: 100px; letter-spacing: 0.02em;
-  }
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:4px;margin-top:.4rem}
+.fstep{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#6b6b67}
+.fnum{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.farr{color:#a0a09c;font-size:11px;padding:0 2px}
 
-  /* ── Company card ── */
-  .company-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    margin-bottom: 1rem;
-  }
+.div{height:1px;background:rgba(0,0,0,0.08);margin:1rem 0}
 
-  .card-header {
-    padding: 1.25rem 1.5rem 1rem;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: flex-start; gap: 14px;
-  }
-  .card-logo {
-    width: 40px; height: 40px; border-radius: var(--radius-md);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; flex-shrink: 0; letter-spacing: 0.01em;
-  }
-  .card-name { font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-  .card-tagline { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.exits{margin-top:.4rem}
+.exit{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:#1a1a18;line-height:1.65;margin-bottom:.45rem}
+.edot{width:7px;height:7px;border-radius:50%;background:#E24B4A;margin-top:6px;flex-shrink:0}
 
-  .card-body { padding: 1.25rem 1.5rem; }
+.insight{margin-top:1rem;padding:.85rem 1.1rem;background:#f7f7f5;border-radius:8px;border-left:3px solid;font-size:13.5px;color:#1a1a18;line-height:1.75}
+.ilbl{font-size:10.5px;font-weight:800;margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.07em;color:#a0a09c}
 
-  /* ── Props grid ── */
-  .props-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 1rem;
-  }
-  .prop-label {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.06em;
-    text-transform: uppercase; color: var(--text-tertiary);
-    margin-bottom: 0.4rem;
-  }
-  .prop-content { font-size: 13.5px; color: var(--text-primary); line-height: 1.75; }
+/* purple */
+.p-num{background:#EEEDFE;color:#534AB7}
+.p-bdg{background:#EEEDFE;color:#534AB7}
+.p-logo{background:#EEEDFE;color:#534AB7}
+.p-tag{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.p-fn{background:#EEEDFE;color:#534AB7}
+.p-ins{border-color:#534AB7}
+/* teal */
+.t-num{background:#E1F5EE;color:#0F6E56}
+.t-bdg{background:#E1F5EE;color:#0F6E56}
+.t-logo{background:#E1F5EE;color:#0F6E56}
+.t-tag{background:#E1F5EE;color:#085041;border-color:#5DCAA5}
+.t-fn{background:#E1F5EE;color:#0F6E56}
+.t-ins{border-color:#0F6E56}
+/* blue */
+.b-num{background:#E6F1FB;color:#185FA5}
+.b-bdg{background:#E6F1FB;color:#185FA5}
+.b-logo{background:#E6F1FB;color:#185FA5}
+.b-tag{background:#E6F1FB;color:#0C447C;border-color:#85B7EB}
+.b-fn{background:#E6F1FB;color:#185FA5}
+.b-ins{border-color:#185FA5}
+/* amber */
+.a-num{background:#FAEEDA;color:#854F0B}
+.a-bdg{background:#FAEEDA;color:#854F0B}
+.a-logo{background:#FAEEDA;color:#854F0B}
+.a-tag{background:#FAEEDA;color:#633806;border-color:#EF9F27}
+.a-fn{background:#FAEEDA;color:#854F0B}
+.a-ins{border-color:#854F0B}
+/* coral */
+.c-num{background:#FAECE7;color:#993C1D}
+.c-bdg{background:#FAECE7;color:#993C1D}
+.c-logo{background:#FAECE7;color:#993C1D}
+.c-tag{background:#FAECE7;color:#712B13;border-color:#F0997B}
+.c-fn{background:#FAECE7;color:#993C1D}
+.c-ins{border-color:#993C1D}
 
-  /* ── Tags ── */
-  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.6rem; }
-  .tag {
-    font-size: 12px; font-weight: 500; padding: 3px 10px;
-    border-radius: 100px; border: 1px solid;
-  }
-
-  /* ── Flow steps ── */
-  .flow-row {
-    display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
-    margin-top: 0.4rem;
-  }
-  .flow-step {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 12.5px; color: var(--text-secondary);
-  }
-  .flow-num {
-    width: 20px; height: 20px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10px; font-weight: 700; flex-shrink: 0;
-  }
-  .flow-arrow { color: var(--text-tertiary); font-size: 11px; padding: 0 2px; }
-
-  /* ── Divider ── */
-  .divider { height: 1px; background: var(--border); margin: 1rem 0; }
-
-  /* ── Exit points ── */
-  .exit-item {
-    display: flex; align-items: flex-start; gap: 8px;
-    font-size: 13.5px; color: var(--text-primary);
-    line-height: 1.65; margin-bottom: 0.45rem;
-  }
-  .exit-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--red-400); margin-top: 6px; flex-shrink: 0;
-  }
-
-  /* ── Insight box ── */
-  .insight-box {
-    margin-top: 1rem;
-    padding: 0.85rem 1.1rem;
-    background: var(--bg-secondary);
-    border-radius: var(--radius-md);
-    border-left: 3px solid;
-    font-size: 13.5px; color: var(--text-primary); line-height: 1.75;
-  }
-  .insight-label {
-    font-size: 10.5px; font-weight: 700; margin-bottom: 0.35rem;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    color: var(--text-tertiary);
-  }
-
-  /* ── Color themes ── */
-  .c1-num  { background: var(--purple-50); color: var(--purple-600); }
-  .c1-badge{ background: var(--purple-50); color: var(--purple-600); }
-  .c1-logo { background: var(--purple-50); color: var(--purple-600); }
-  .c1-tag  { background: var(--purple-50); color: var(--purple-800); border-color: var(--purple-200); }
-  .c1-step { background: var(--purple-50); color: var(--purple-600); }
-  .c1-insight { border-color: var(--purple-600); }
-
-  .c2-num  { background: var(--teal-50); color: var(--teal-600); }
-  .c2-badge{ background: var(--teal-50); color: var(--teal-600); }
-  .c2-logo { background: var(--teal-50); color: var(--teal-600); }
-  .c2-tag  { background: var(--teal-50); color: var(--teal-800); border-color: var(--teal-200); }
-  .c2-step { background: var(--teal-50); color: var(--teal-600); }
-  .c2-insight { border-color: var(--teal-600); }
-
-  .c3-num  { background: var(--blue-50); color: var(--blue-600); }
-  .c3-badge{ background: var(--blue-50); color: var(--blue-600); }
-  .c3-logo { background: var(--blue-50); color: var(--blue-600); }
-  .c3-tag  { background: var(--blue-50); color: var(--blue-800); border-color: var(--blue-200); }
-  .c3-step { background: var(--blue-50); color: var(--blue-600); }
-  .c3-insight { border-color: var(--blue-600); }
-
-  .c4-num  { background: var(--amber-50); color: var(--amber-600); }
-  .c4-badge{ background: var(--amber-50); color: var(--amber-600); }
-  .c4-logo { background: var(--amber-50); color: var(--amber-600); }
-  .c4-tag  { background: var(--amber-50); color: var(--amber-800); border-color: var(--amber-200); }
-  .c4-step { background: var(--amber-50); color: var(--amber-600); }
-  .c4-insight { border-color: var(--amber-600); }
-
-  .c5-num  { background: var(--coral-50); color: var(--coral-600); }
-  .c5-badge{ background: var(--coral-50); color: var(--coral-600); }
-  .c5-logo { background: var(--coral-50); color: var(--coral-600); }
-  .c5-tag  { background: var(--coral-50); color: var(--coral-800); border-color: var(--coral-200); }
-  .c5-step { background: var(--coral-50); color: var(--coral-600); }
-  .c5-insight { border-color: var(--coral-600); }
-
-  @media (max-width: 600px) {
-    .container { padding: 2rem 1rem 4rem; }
-    .page-title { font-size: 24px; }
-    .props-grid { grid-template-columns: 1fr; }
-    .section-badge { display: none; }
-  }
+@media(max-width:600px){.wrap{padding:2rem 1rem 4rem}.ph-title{font-size:24px}.grid{grid-template-columns:1fr}.sh-badge{display:none}}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
 
-  <!-- Page header -->
-  <div class="page-header">
-    <div class="page-eyebrow">📑 분석 리포트</div>
-    <h1 class="page-title">타사 랜딩페이지 및 전환 구조 분석</h1>
-    <p class="page-desc">AI 부트캠프 랜딩페이지 구조 분석 · 전환을 만드는 설계 방식 비교 · 스파르타클럽(KANT) 중심</p>
+  <div class="ph">
+    <span class="ph-eye">📑 분석 리포트</span>
+    <h1 class="ph-title">타사 랜딩페이지 및 전환 구조 분석</h1>
+    <p class="ph-desc">AI 부트캠프 랜딩페이지 구조 분석 · 전환을 만드는 설계 방식 비교 · 스파르타클럽(KANT) 중심</p>
   </div>
 
   <div class="callout">
@@ -249,303 +107,280 @@
     </div>
   </div>
 
-  <!-- ===== 1. 스파르타클럽 ===== -->
-  <div class="section-header">
-    <div class="section-num c1-num">1</div>
-    <div class="section-title">스파르타클럽 (KANT)</div>
-    <span class="section-badge c1-badge">메인 분석 대상</span>
+  <!-- 1. 스파르타클럽 -->
+  <div class="sh">
+    <div class="sh-num p-num">1</div>
+    <div class="sh-title">스파르타클럽 (KANT)</div>
+    <span class="sh-badge p-bdg">메인 분석 대상</span>
   </div>
-
-  <div class="company-card">
-    <div class="card-header">
-      <div class="card-logo c1-logo">SP</div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-logo p-logo">SP</div>
       <div>
         <div class="card-name">Korea AI Native Technologists</div>
-        <div class="card-tagline">한국형 AI 전문가 교육 by Teamsparta · 다크 모드 / 기술적 프리미엄 포지셔닝</div>
+        <div class="card-sub">한국형 AI 전문가 교육 by Teamsparta · 다크 모드 / 기술적 프리미엄 포지셔닝</div>
       </div>
     </div>
     <div class="card-body">
-      <div class="props-grid">
+      <div class="grid">
         <div>
-          <div class="prop-label">랜딩 구조</div>
-          <div class="prop-content">블랙 톤 다크 모드 + 고대비 폰트. NVIDIA · Microsoft 로고 전면 배치로 기술적 신뢰도 시각화.</div>
-          <div class="tag-list">
-            <span class="tag c1-tag">다크 UI</span>
-            <span class="tag c1-tag">파트너십 강조</span>
-            <span class="tag c1-tag">Fellowship 브랜딩</span>
+          <div class="lbl">랜딩 구조</div>
+          <div class="txt">블랙 톤 다크 모드 + 고대비 폰트. NVIDIA · Microsoft 로고 전면 배치로 기술적 신뢰도 시각화.</div>
+          <div class="tags">
+            <span class="tag p-tag">다크 UI</span>
+            <span class="tag p-tag">파트너십 강조</span>
+            <span class="tag p-tag">Fellowship 브랜딩</span>
           </div>
         </div>
         <div>
-          <div class="prop-label">유입 유도 장치</div>
-          <div class="prop-content">상/하단 플로팅 CTA 상시 노출. 지인 추천 시 '동일 팀 배정' 혜택으로 바이럴 루프 구성.</div>
-          <div class="tag-list">
-            <span class="tag c1-tag">플로팅 CTA</span>
-            <span class="tag c1-tag">지인 추천 리워드</span>
+          <div class="lbl">유입 유도 장치</div>
+          <div class="txt">상/하단 플로팅 CTA 상시 노출. 지인 추천 시 '동일 팀 배정' 혜택으로 바이럴 루프 구성.</div>
+          <div class="tags">
+            <span class="tag p-tag">플로팅 CTA</span>
+            <span class="tag p-tag">지인 추천 리워드</span>
           </div>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <div style="margin-bottom: 1rem;">
-        <div class="prop-label">전환 플로우</div>
-        <div class="flow-row">
-          <div class="flow-step"><div class="flow-num c1-step">1</div>랜딩 진입</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><div class="flow-num c1-step">2</div>CTA 클릭</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><div class="flow-num c1-step">3</div>DB 입력</div>
-          <div class="flow-arrow">→</div>
-          <div class="flow-step"><div class="flow-num c1-step">4</div>지인 공유 유도</div>
+      <div class="div"></div>
+      <div style="margin-bottom:1rem">
+        <div class="lbl">전환 플로우</div>
+        <div class="flow">
+          <div class="fstep"><div class="fnum p-fn">1</div>랜딩 진입</div>
+          <div class="farr">→</div>
+          <div class="fstep"><div class="fnum p-fn">2</div>CTA 클릭</div>
+          <div class="farr">→</div>
+          <div class="fstep"><div class="fnum p-fn">3</div>DB 입력</div>
+          <div class="farr">→</div>
+          <div class="fstep"><div class="fnum p-fn">4</div>지인 공유 유도</div>
         </div>
       </div>
-
-      <div class="props-grid">
+      <div class="grid">
         <div>
-          <div class="prop-label">DB 확보 전략</div>
-          <div class="prop-content">사전 알림 단계로 고관여 리드 선점. 회원가입 없이 연락처만으로 신청. 바이럴 루프로 추가 DB 자동 확보.</div>
+          <div class="lbl">DB 확보 전략</div>
+          <div class="txt">사전 알림 단계로 고관여 리드 선점. 회원가입 없이 연락처만으로 신청. 바이럴 루프로 추가 DB 자동 확보.</div>
         </div>
         <div>
-          <div class="prop-label">전환 유도 장치</div>
-          <div class="prop-content">누적 수강생 9,536명 · 취업률 88.6% · 협력사 880개. 서울 구로 전용 공간 600명 수용. 월 최대 40만원 훈련장려금.</div>
+          <div class="lbl">전환 유도 장치</div>
+          <div class="txt">누적 수강생 9,536명 · 취업률 88.6% · 협력사 880개. 서울 구로 전용 공간 600명 수용. 월 최대 40만원 훈련장려금.</div>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="prop-label">이탈 포인트</div>
-      <div style="margin-top: 0.4rem;">
-        <div class="exit-item"><div class="exit-dot"></div>커리큘럼 미공개 — 사전 알림 단계로 주차별 학습 내용 확인 불가</div>
-        <div class="exit-item"><div class="exit-dot"></div>오프라인 100% 명시 — 수도권 외 거주자 즉각 이탈</div>
+      <div class="div"></div>
+      <div class="lbl">이탈 포인트</div>
+      <div class="exits">
+        <div class="exit"><div class="edot"></div>커리큘럼 미공개 — 사전 알림 단계로 주차별 학습 내용 확인 불가</div>
+        <div class="exit"><div class="edot"></div>오프라인 100% 명시 — 수도권 외 거주자 즉각 이탈</div>
       </div>
-
-      <div class="insight-box c1-insight">
-        <div class="insight-label">핵심 인사이트</div>
+      <div class="insight p-ins">
+        <div class="ilbl">핵심 인사이트</div>
         단순 교육생이 아닌 'Fellowship' 멤버로 정의해 소속감을 부여하고, 지인 추천 혜택으로 커뮤니티성을 강화한 것이 유입의 핵심. <strong>커뮤니티 기반 브랜딩</strong> 전략.
       </div>
     </div>
   </div>
 
-  <!-- ===== 2. 모두의 연구소 ===== -->
-  <div class="section-header">
-    <div class="section-num c2-num">2</div>
-    <div class="section-title">모두의 연구소 (아이펠)</div>
-    <span class="section-badge c2-badge">런케이션 차별화</span>
+  <!-- 2. 모두의 연구소 -->
+  <div class="sh">
+    <div class="sh-num t-num">2</div>
+    <div class="sh-title">모두의 연구소 (아이펠)</div>
+    <span class="sh-badge t-bdg">런케이션 차별화</span>
   </div>
-
-  <div class="company-card">
-    <div class="card-header">
-      <div class="card-logo c2-logo">AI</div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-logo t-logo">AI</div>
       <div>
         <div class="card-name">제주에서 3주, 오직 AI 프로젝트에 몰입하는 6개월</div>
-        <div class="card-tagline">Learning + Vacation 컨셉 · 비주얼 중심 · 제주 왕복 항공권 + 숙박 지원</div>
+        <div class="card-sub">Learning + Vacation 컨셉 · 비주얼 중심 · 제주 왕복 항공권 + 숙박 지원</div>
       </div>
     </div>
     <div class="card-body">
-      <div class="props-grid">
+      <div class="grid">
         <div>
-          <div class="prop-label">랜딩 구조</div>
-          <div class="prop-content">런케이션(Learning+Vacation) 컨셉 비주얼 중심. 카카오 제주 오피스 방문·글로벌 해커톤 등 독점 경험 강조. 취업 축하금 100만원 명시.</div>
-          <div class="tag-list">
-            <span class="tag c2-tag">런케이션</span>
-            <span class="tag c2-tag">경험 중심</span>
-            <span class="tag c2-tag">금전적 보상</span>
+          <div class="lbl">랜딩 구조</div>
+          <div class="txt">런케이션(Learning+Vacation) 컨셉 비주얼 중심. 카카오 제주 오피스 방문·글로벌 해커톤 등 독점 경험 강조. 취업 축하금 100만원 명시.</div>
+          <div class="tags">
+            <span class="tag t-tag">런케이션</span>
+            <span class="tag t-tag">경험 중심</span>
+            <span class="tag t-tag">금전적 보상</span>
           </div>
         </div>
         <div>
-          <div class="prop-label">전환 플로우</div>
-          <div style="margin-top: 0.4rem; display: flex; flex-direction: column; gap: 6px;">
-            <div class="flow-step"><div class="flow-num c2-step">1</div>랜딩 진입 → 혜택 확인</div>
-            <div class="flow-step"><div class="flow-num c2-step">2</div>CTA 클릭 → 회원가입</div>
-            <div class="flow-step"><div class="flow-num c2-step">3</div>지원서 작성</div>
-            <div class="flow-step"><div class="flow-num c2-step">4</div>서류 검토 (1일 이내)</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="props-grid">
-        <div>
-          <div class="prop-label">DB 확보 전략</div>
-          <div class="prop-content">파격적 베네핏(제주 런케이션)으로 상세 지원서 작성 유도. '비전공자도 OK', '5만원으로 시작' 등 진입 장벽 완화.</div>
-        </div>
-        <div>
-          <div class="prop-label">이탈 포인트 ⚠️</div>
-          <div style="margin-top: 0.4rem;">
-            <div class="exit-item"><div class="exit-dot"></div>상세 지원서 작성 허들 — 중도 이탈 가능성</div>
-            <div class="exit-item"><div class="exit-dot"></div>5만원 선결제 요구 — 무료 기대 사용자 저항</div>
+          <div class="lbl">전환 플로우</div>
+          <div style="margin-top:.4rem;display:flex;flex-direction:column;gap:6px">
+            <div class="fstep"><div class="fnum t-fn">1</div>랜딩 진입 → 혜택 확인</div>
+            <div class="fstep"><div class="fnum t-fn">2</div>CTA 클릭 → 회원가입</div>
+            <div class="fstep"><div class="fnum t-fn">3</div>지원서 작성</div>
+            <div class="fstep"><div class="fnum t-fn">4</div>서류 검토 (1일 이내)</div>
           </div>
         </div>
       </div>
-
-      <div class="insight-box c2-insight">
-        <div class="insight-label">핵심 인사이트</div>
+      <div class="div"></div>
+      <div class="grid">
+        <div>
+          <div class="lbl">DB 확보 전략</div>
+          <div class="txt">파격적 베네핏(제주 런케이션)으로 상세 지원서 작성 유도. '비전공자도 OK', '5만원으로 시작' 등 진입 장벽 완화.</div>
+        </div>
+        <div>
+          <div class="lbl">이탈 포인트 ⚠️</div>
+          <div class="exits" style="margin-top:.4rem">
+            <div class="exit"><div class="edot"></div>상세 지원서 작성 허들 — 중도 이탈 가능성</div>
+            <div class="exit"><div class="edot"></div>5만원 선결제 요구 — 무료 기대 사용자 저항</div>
+          </div>
+        </div>
+      </div>
+      <div class="insight t-ins">
+        <div class="ilbl">핵심 인사이트</div>
         교육 콘텐츠보다 '제주 런케이션'이라는 독보적 환경으로 타사 대비 강력한 유입 경쟁력 확보. <strong>경험 중심 차별화</strong> 전략.
       </div>
     </div>
   </div>
 
-  <!-- ===== 3. 구름 ===== -->
-  <div class="section-header">
-    <div class="section-num c3-num">3</div>
-    <div class="section-title">구름 (딥다이브)</div>
-    <span class="section-badge c3-badge">게이미피케이션</span>
+  <!-- 3. 구름 -->
+  <div class="sh">
+    <div class="sh-num b-num">3</div>
+    <div class="sh-title">구름 (딥다이브)</div>
+    <span class="sh-badge b-bdg">게이미피케이션</span>
   </div>
-
-  <div class="company-card">
-    <div class="card-header">
-      <div class="card-logo c3-logo">GR</div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-logo b-logo">GR</div>
       <div>
         <div class="card-name">몰입의 깊이가 실력의 높이가 되는 곳 DEEP DIVE</div>
-        <div class="card-tagline">플레이어·퀘스트 컨셉 게이미피케이션 · 100% 온라인 · 8개+ 트랙 운영</div>
+        <div class="card-sub">플레이어·퀘스트 컨셉 게이미피케이션 · 100% 온라인 · 8개+ 트랙 운영</div>
       </div>
     </div>
     <div class="card-body">
-      <div class="props-grid">
+      <div class="grid">
         <div>
-          <div class="prop-label">랜딩 구조</div>
-          <div class="prop-content">인프런 1,000개 강의 무료 수강권 제공. 우수 수료생 IT 기업 인턴십·정규직 기회. 2년 연속 브랜드 대상 1위.</div>
-          <div class="tag-list">
-            <span class="tag c3-tag">온라인 100%</span>
-            <span class="tag c3-tag">게이미피케이션</span>
-            <span class="tag c3-tag">멀티트랙</span>
+          <div class="lbl">랜딩 구조</div>
+          <div class="txt">인프런 1,000개 강의 무료 수강권 제공. 우수 수료생 IT 기업 인턴십·정규직 기회. 2년 연속 브랜드 대상 1위.</div>
+          <div class="tags">
+            <span class="tag b-tag">온라인 100%</span>
+            <span class="tag b-tag">게이미피케이션</span>
+            <span class="tag b-tag">멀티트랙</span>
           </div>
         </div>
         <div>
-          <div class="prop-label">전환 유도 장치</div>
-          <div class="prop-content">2년 연속 브랜드 대상 1위 · 만족도 4.8점 · 누적 1,800명. 구름 CEO · KT Cloud 본부장급 멘토진. '0원 ← 19,000,000원' 가격 대비 시각화.</div>
+          <div class="lbl">전환 유도 장치</div>
+          <div class="txt">2년 연속 브랜드 대상 1위 · 만족도 4.8점 · 누적 1,800명. 구름 CEO · KT Cloud 본부장급 멘토진. '0원 ← 19,000,000원' 가격 대비 시각화.</div>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="props-grid">
+      <div class="div"></div>
+      <div class="grid">
         <div>
-          <div class="prop-label">DB 확보 전략</div>
-          <div class="prop-content">구름 + 인프런 혜택 결합으로 리드 유인. 8개 이상 트랙 세분화로 광범위한 잠재 고객 DB 확보.</div>
+          <div class="lbl">DB 확보 전략</div>
+          <div class="txt">구름 + 인프런 혜택 결합으로 리드 유인. 8개 이상 트랙 세분화로 광범위한 잠재 고객 DB 확보.</div>
         </div>
         <div>
-          <div class="prop-label">이탈 포인트 ⚠️</div>
-          <div style="margin-top: 0.4rem;">
-            <div class="exit-item"><div class="exit-dot"></div>선택 과부하 — 8개 이상 과정으로 초심자 결정 장애</div>
-            <div class="exit-item"><div class="exit-dot"></div>온라인 관리 부실 우려 (완주율 100% 강조로 상쇄 시도)</div>
+          <div class="lbl">이탈 포인트 ⚠️</div>
+          <div class="exits" style="margin-top:.4rem">
+            <div class="exit"><div class="edot"></div>선택 과부하 — 8개 이상 과정으로 초심자 결정 장애</div>
+            <div class="exit"><div class="edot"></div>온라인 관리 부실 우려 (완주율 100% 강조로 상쇄 시도)</div>
           </div>
         </div>
       </div>
-
-      <div class="insight-box c3-insight">
-        <div class="insight-label">핵심 인사이트</div>
+      <div class="insight b-ins">
+        <div class="ilbl">핵심 인사이트</div>
         학습자를 '플레이어'로, 성장을 '모험'으로 묘사해 학습 몰입도를 높이는 세계관 구축. <strong>커뮤니티 및 게임화</strong> 전략.
       </div>
     </div>
   </div>
 
-  <!-- ===== 4. 패스트캠퍼스 ===== -->
-  <div class="section-header">
-    <div class="section-num c4-num">4</div>
-    <div class="section-title">패스트캠퍼스 (더캠프)</div>
-    <span class="section-badge c4-badge">안티테제 마케팅</span>
+  <!-- 4. 패스트캠퍼스 -->
+  <div class="sh">
+    <div class="sh-num a-num">4</div>
+    <div class="sh-title">패스트캠퍼스 (더캠프)</div>
+    <span class="sh-badge a-bdg">안티테제 마케팅</span>
   </div>
-
-  <div class="company-card">
-    <div class="card-header">
-      <div class="card-logo c4-logo">FC</div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-logo a-logo">FC</div>
       <div>
         <div class="card-name">온라인 강의의 허무함, 이제 모두 합니다</div>
-        <div class="card-tagline">오프라인에서만의 가치 극대화 · 100% 환급제 · 강력한 어전시(urgency) 활용</div>
+        <div class="card-sub">오프라인에서만의 가치 극대화 · 100% 환급제 · 강력한 어전시(urgency) 활용</div>
       </div>
     </div>
     <div class="card-body">
-      <div class="props-grid">
+      <div class="grid">
         <div>
-          <div class="prop-label">랜딩 구조</div>
-          <div class="prop-content">온라인 낮은 완강률(13%)을 지적하며 오프라인 필요성 역설. '선착순 마감 임박', '4월 가격 인상' 등 강력한 어전시 배너.</div>
-          <div class="tag-list">
-            <span class="tag c4-tag">100% 환급제</span>
-            <span class="tag c4-tag">어전시 배너</span>
-            <span class="tag c4-tag">오프라인 프리미엄</span>
+          <div class="lbl">랜딩 구조</div>
+          <div class="txt">온라인 낮은 완강률(13%)을 지적하며 오프라인 필요성 역설. '선착순 마감 임박', '4월 가격 인상' 등 강력한 어전시 배너.</div>
+          <div class="tags">
+            <span class="tag a-tag">100% 환급제</span>
+            <span class="tag a-tag">어전시 배너</span>
+            <span class="tag a-tag">오프라인 프리미엄</span>
           </div>
         </div>
         <div>
-          <div class="prop-label">전환 유도 장치</div>
-          <div class="prop-content">'수강료는 내는 게 아니라 맡겨두는 것' 프레임의 100% 환급제. '오직 소수 인원만' 희소성 강조. 상단 배너에 실시간 가격 인상 압박.</div>
+          <div class="lbl">전환 유도 장치</div>
+          <div class="txt">'수강료는 내는 게 아니라 맡겨두는 것' 프레임의 100% 환급제. '오직 소수 인원만' 희소성 강조. 상단 배너에 실시간 가격 인상 압박.</div>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="props-grid">
+      <div class="div"></div>
+      <div class="grid">
         <div>
-          <div class="prop-label">DB 확보 전략</div>
-          <div class="prop-content">사전예약자 전용 특별 혜택 명시로 조기 DB 확보. '온라인 강의는 넘치는데 해결된 건 없다' 문구로 결핍 자극.</div>
+          <div class="lbl">DB 확보 전략</div>
+          <div class="txt">사전예약자 전용 특별 혜택 명시로 조기 DB 확보. '온라인 강의는 넘치는데 해결된 건 없다' 문구로 결핍 자극.</div>
         </div>
         <div>
-          <div class="prop-label">이탈 포인트 ⚠️</div>
-          <div style="margin-top: 0.4rem;">
-            <div class="exit-item"><div class="exit-dot"></div>오프라인 필수 참석 — 지리적 부담감</div>
-            <div class="exit-item"><div class="exit-dot"></div>환급 조건 복잡성 — 제세공과금 본인 부담</div>
+          <div class="lbl">이탈 포인트 ⚠️</div>
+          <div class="exits" style="margin-top:.4rem">
+            <div class="exit"><div class="edot"></div>오프라인 필수 참석 — 지리적 부담감</div>
+            <div class="exit"><div class="edot"></div>환급 조건 복잡성 — 제세공과금 본인 부담</div>
           </div>
         </div>
       </div>
-
-      <div class="insight-box c4-insight">
-        <div class="insight-label">핵심 인사이트</div>
+      <div class="insight a-ins">
+        <div class="ilbl">핵심 인사이트</div>
         자사 주력인 온라인 강의의 단점을 직접 공격해 고가 오프라인 상품 가치를 정당화. <strong>안티테제 마케팅</strong>의 대표 사례.
       </div>
     </div>
   </div>
 
-  <!-- ===== 5. 프로그래머스 ===== -->
-  <div class="section-header">
-    <div class="section-num c5-num">5</div>
-    <div class="section-title">프로그래머스 (데브코스)</div>
-    <span class="section-badge c5-badge">채용 연계 전략</span>
+  <!-- 5. 프로그래머스 -->
+  <div class="sh">
+    <div class="sh-num c-num">5</div>
+    <div class="sh-title">프로그래머스 (데브코스)</div>
+    <span class="sh-badge c-bdg">채용 연계 전략</span>
   </div>
-
-  <div class="company-card">
-    <div class="card-header">
-      <div class="card-logo c5-logo">PG</div>
+  <div class="card">
+    <div class="card-head">
+      <div class="card-logo c-logo">PG</div>
       <div>
         <div class="card-name">AI 기능을 직접 구현하며 완성하는 백엔드 과정</div>
-        <div class="card-tagline">카카오페이·우아한형제들 채용 공고와 커리큘럼 1:1 매칭 · 마감 타이머 활용</div>
+        <div class="card-sub">카카오페이·우아한형제들 채용 공고와 커리큘럼 1:1 매칭 · 마감 타이머 활용</div>
       </div>
     </div>
     <div class="card-body">
-      <div class="props-grid">
+      <div class="grid">
         <div>
-          <div class="prop-label">랜딩 구조</div>
-          <div class="prop-content">실제 채용 공고 ↔ 커리큘럼 1:1 매칭으로 실무 적합성 증명. '모집 종료까지 00일 00시간' 타이머 배치. 맥북 지원 · 훈련 장려금 최대 170만원.</div>
-          <div class="tag-list">
-            <span class="tag c5-tag">채용 연계</span>
-            <span class="tag c5-tag">마감 타이머</span>
-            <span class="tag c5-tag">데이터 기반</span>
+          <div class="lbl">랜딩 구조</div>
+          <div class="txt">실제 채용 공고 ↔ 커리큘럼 1:1 매칭으로 실무 적합성 증명. '모집 종료까지 00일 00시간' 타이머 배치. 맥북 지원 · 훈련 장려금 최대 170만원.</div>
+          <div class="tags">
+            <span class="tag c-tag">채용 연계</span>
+            <span class="tag c-tag">마감 타이머</span>
+            <span class="tag c-tag">데이터 기반</span>
           </div>
         </div>
         <div>
-          <div class="prop-label">전환 유도 장치</div>
-          <div class="prop-content">1,700개 기업 채용 데이터 기반 커리큘럼. 수료율 90% · 만족도 94점. 맥북 전원 지원 · 도서 지원 · 기술 특강 4회.</div>
+          <div class="lbl">전환 유도 장치</div>
+          <div class="txt">1,700개 기업 채용 데이터 기반 커리큘럼. 수료율 90% · 만족도 94점. 맥북 전원 지원 · 도서 지원 · 기술 특강 4회.</div>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="props-grid">
+      <div class="div"></div>
+      <div class="grid">
         <div>
-          <div class="prop-label">DB 확보 전략</div>
-          <div class="prop-content">다음 기수 알림 신청 시 스타벅스 쿠폰 추첨. '수업 미리보기' 등 저관여 콘텐츠로 준비 중인 유저 DB까지 수집.</div>
+          <div class="lbl">DB 확보 전략</div>
+          <div class="txt">다음 기수 알림 신청 시 스타벅스 쿠폰 추첨. '수업 미리보기' 등 저관여 콘텐츠로 준비 중인 유저 DB까지 수집.</div>
         </div>
         <div>
-          <div class="prop-label">이탈 포인트 ⚠️</div>
-          <div style="margin-top: 0.4rem;">
-            <div class="exit-item"><div class="exit-dot"></div>코딩 테스트 선발 프로세스 — 진입 부담감</div>
-            <div class="exit-item"><div class="exit-dot"></div>09:00–18:00 + 이후 자율학습 — 높은 강도의 심리적 부담</div>
+          <div class="lbl">이탈 포인트 ⚠️</div>
+          <div class="exits" style="margin-top:.4rem">
+            <div class="exit"><div class="edot"></div>코딩 테스트 선발 프로세스 — 진입 부담감</div>
+            <div class="exit"><div class="edot"></div>09:00–18:00 + 이후 자율학습 — 높은 강도의 심리적 부담</div>
           </div>
         </div>
       </div>
-
-      <div class="insight-box c5-insight">
-        <div class="insight-label">핵심 인사이트</div>
+      <div class="insight c-ins">
+        <div class="ilbl">핵심 인사이트</div>
         교육 내용이 채용으로 어떻게 연결되는지를 시각적으로 완벽히 증명해 전환 논리 구축. <strong>직무 역량의 시각화</strong> 전략.
       </div>
     </div>
